@@ -1,5 +1,16 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { myIcons } from "../assets";
+import { BsChevronDown, BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import {
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
 export const Centerpiece = () => {
   return (
     <>
@@ -52,61 +63,108 @@ const MenuIconBtn = ({ activeBtn, btnId, changeActiveBtn, icon, title }) => {
 };
 
 const QuestionDiv = () => {
-  const [activeBtn, changeActiveBtn] = useState("edit");
+  const [optionType, changeOptionType] = useState("radio");
   return (
     <>
       <div className="flex justify-between w-full p-2 mt-2">
-        <span className=" focus:border-[#228BE6] bg-white rounded-md px-2 py-1 w-[3/5] flex justify-between">
-          <span className="text-[#CED4DA]">?</span>
-          <input className=" inline-block w-[5/6]" />
-        </span>
-        <span className="w-[1/3] inline-block">
-          <DropdownBtn />
-        </span>
+        <div className=" focus:border-[#228BE6] bg-white rounded-md px-2 py-1 w-[60%] flex justify-between">
+          <span className="text-[#CED4DA] inline-block">?</span>
+          <input className=" inline-block w-[90%]" />
+        </div>
+        <div className="w-[40%]">
+          <Select value={optionType} renderValue={(value)=><span> <RadioButtonCheckedIcon /> {value}</span>} size="small" sx={{width:"90%",display:"flex",flexDirection:"row"}}>
+            <MenuItem value="radio">
+              <ListItemIcon sx={{ display: "flex", alignItems: "baseline" }}>
+                <RadioButtonCheckedIcon />
+              </ListItemIcon>
+                <ListItemText primary="Radio" />
+            </MenuItem>
+            <MenuItem value="radio">
+              <ListItemIcon>
+                <CheckBoxIcon  />
+              </ListItemIcon>
+                <ListItemText primary="Radio" />
+            </MenuItem>
+          </Select>
+        </div>
       </div>
     </>
   );
 };
 
-const DropdownBtn = ({ activeBtn, btnId, changeActiveBtn, icon, title }) => {
+const DropdownBtn = ({ activeOptionType, changeActiveOptionType }) => {
+  let [isOpen, toggle] = useState(false);
+  let btnRef = useRef();
+  let dropdownRef = useRef();
+
+  useEffect(() => {
+    if (dropdownRef.current) {
+      let btnRect = btnRef.current.getBoundingClientRect();
+      let dropdownRect = dropdownRef.current.getBoundingClientRect();
+      dropdownRect = btnRect;
+      dropdownRect.top = btnRect.top + 30;
+    }
+  }, [dropdownRef]);
   return (
     <>
-      {activeBtn === btnId ? (
-        <span className="bg-[#228BE6] text-[#FFFFFF] rounded-sm px-2 py-1 flex justify-between">
-          <img src={icon} />
-          <span>{title}</span>{" "}
+      <span
+        ref={btnRef}
+        className="w-[100px] flex justify-between border-[#D1D5DB] bg-white py-1 px-2"
+        onClick={(e) => {
+          toggle(!isOpen);
+        }}
+      >
+        <span className=" capitalize">{activeOptionType}</span>
+        <span>{<BsChevronDown />}</span>
+      </span>
+      {isOpen ? (
+        <span
+          className="absolute flex flex-col p-2 bg-white rounded-md items-start"
+          ref={dropdownRef}
+        >
+          <span
+            className="mb-3"
+            onChange={(e) => {
+              changeActiveOptionType("radio");
+            }}
+          >
+            Radio
+          </span>
+          <span
+            onChange={(e) => {
+              changeActiveOptionType("checkbox");
+            }}
+          >
+            Checkbox
+          </span>
         </span>
-      ) : (
-        <span></span>
-      )}
+      ) : null}
     </>
   );
 };
 
 const AnswersDiv = () => {
   const [correctOptionID, changeCorrectOptionID] = useState(1);
-  const [optionList, changeOptionList] = useState([
-    { text: "", type: "checkbox", optionId: 0 },
-  ]);
+  const [optionList, changeOptionList] = useState([0]);
   let addOption = () => {
     let optionId = optionList.length;
-    optionList.push({ text: "", type: "checkbox", optionId });
+    optionList.push(optionId);
     changeOptionList([...JSON.parse(JSON.stringify(optionList))]);
   };
   let removeOption = (optionId) => {
-    optionList.splice(optionId,1);
-    console.log(optionList)
+    optionList.splice(optionId, 1);
+    console.log(optionList);
     changeOptionList([...JSON.parse(JSON.stringify(optionList))]);
   };
   return (
     <div className="flex flex-col w-full p-2 mt-2">
-      {optionList.map((optionObj, index) => (
+      {optionList.map((optionId, index) => (
         <OptionDiv
-          optionId={optionObj.optionId}
+          optionId={optionId}
           correctOptionID={correctOptionID}
           changeCorrectOptionID={changeCorrectOptionID}
           addOption={addOption}
-          key={optionObj.optionId}
+          key={optionId}
           removeOption={removeOption}
         />
       ))}

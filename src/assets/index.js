@@ -1,5 +1,6 @@
 const icons = {
   personal_settings: "./src/assets/my_icons/personal_settings.svg",
+  workspace_settings: "./src/assets/my_icons/workspace_settings.svg",
   product_settings: "./src/assets/my_icons/product_settings.svg",
   options: "./src/assets/my_icons/options.svg",
   short_answer: "./src/assets/my_icons/short_answer.svg",

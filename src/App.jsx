@@ -1,12 +1,12 @@
 import './App.css'
-import { SideBar,Centerpiece } from './components'
+import { SideBar,Centerpiece, SideMenu } from './components'
 
 function App() {
 
   return (
     <>
-    <div>
-      <SideBar/>
+    <div className='h-screen w-screen'>
+      <SideMenu/>
       <div className='w-full flex flex-col justify-center h-full'>
         <Centerpiece/>
       </div>
