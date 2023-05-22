@@ -6,7 +6,7 @@ export const SideMenu = () => {
   const [openMenu, toggleMenuBar] = useState(false);
   return (
     <>
-      <div className="top-0 left-0 absolute">
+      <div className="top-0 left-0  fixed">
         {openMenu ? (
           <SideBar isMenuOpenProp={openMenu} toggleMenuProp={toggleMenuBar} />
         ) : (
