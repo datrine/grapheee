@@ -14,7 +14,7 @@ import {
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-export const Centerpiece = ({ optionTypeProp,compID ,handleDeleteComp}) => {
+export const QuestionComp = ({ optionTypeProp,compID ,handleDeleteComp}) => {
   const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
   return (
     <>

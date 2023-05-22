@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { myIcons } from "../assets";
-import { BsArrowRightShort } from "react-icons/bs";
+import { BsArrowRight,  } from "react-icons/bs";
 import { SideBar } from "./SideBar";
 export const SideMenu = () => {
   const [openMenu, toggleMenuBar] = useState(false);
@@ -11,7 +11,7 @@ export const SideMenu = () => {
           <SideBar isMenuOpenProp={openMenu} toggleMenuProp={toggleMenuBar} />
         ) : (
           <span>
-            <BsArrowRightShort
+            <BsArrowRight className=" text-xl"
               onClick={(e) => {
                 toggleMenuBar(true);
               }}

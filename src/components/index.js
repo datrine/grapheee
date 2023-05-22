@@ -1,5 +1,5 @@
 export { SideMenu } from "./SideMenu";
 
-export { Centerpiece } from "./CenterPiece";
+export { QuestionComp } from "./QuestionComp";
 
 export { SideBar } from "./SideBar";
