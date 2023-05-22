@@ -11,17 +11,19 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
   return (
     <>
       <div
-        onBlur={(e) => {
+        onMouseLeave={(e) => {
+          console.log("sresrexdxshrt")
           changeActiveMenuID("");
         }}
         className=" bg-[#F8F9FA] flex flex-row"
       >
         <div>
-          <BsArrowLeftShort className=" text-xl p-2 block"
+          <div>
+          <BsArrowLeftShort className=" text-xl"
             onClick={(e) => {
               toggleMenuProp(false);
             }}
-          />
+          /></div>
           <div className=" p-2 flex flex-row">
             <div className=" flex flex-col">
               <CollapsibleMenu
@@ -223,8 +225,7 @@ const SubMenuItem = ({ title, icon, value }) => {
   const [openSubMenuBar, toggle] = useState(false);
   return (
     <>
-      <div
-        onDragStart={(e) => {
+      <div onDragStartCapture={(e) => {
           e.dataTransfer.clearData();
           e.dataTransfer.setData("text/plain", value);
         }}

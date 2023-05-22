@@ -34,8 +34,9 @@ function App() {
     <>
       <div
         className="h-screen w-screen"
-        onDragEnd={(e) => {
-          let data = e.dataTransfer.getData("text");
+        onDragEndCapture={(e) => {
+          let data = e.dataTransfer.getData("text/plain");
+          console.log({ data });
           handleAddQuestionComp({ optionType: data });
         }}
       >
