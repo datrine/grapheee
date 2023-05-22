@@ -12,7 +12,6 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
     <>
       <div
         onMouseLeave={(e) => {
-          console.log("sresrexdxshrt")
           changeActiveMenuID("");
         }}
         className=" bg-[#F8F9FA] flex flex-row"
@@ -207,7 +206,7 @@ const SubMenuBar = ({ activeMenuID }) => {
   let submenulist = getSubMenuList(activeMenuID);
   return (
     <>
-      <div className=" md:w-[299px] p-2">
+      <div className=" md:w-[299px] p-2 z-30">
         {submenulist.map((subItem, index) => (
           <SubMenuItem
             key={index}
@@ -233,7 +232,6 @@ const SubMenuItem = ({ title, icon, value }) => {
         className="border bg-white p-2 flex flex-row justify-between"
       >
         <span className="bg-[#E6FCF5] p-2 rounded-full">
-          {" "}
           <img src={icon} />
         </span>
         <span className="w-2/3 text-left inline-block">{title}</span>

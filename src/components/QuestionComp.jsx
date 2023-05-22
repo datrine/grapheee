@@ -12,28 +12,33 @@ import {
   Typography,
 } from "@mui/material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
-export const QuestionComp = ({ optionTypeProp,compID ,handleDeleteComp}) => {
+export const QuestionComp = ({ optionTypeProp, compID, handleDeleteComp }) => {
   const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
   return (
     <>
-      <div draggable={true} className="border mb-3 rounded-sm w-full flex flex-col sm:w-[600px] h-[300px] bg-[#E5E7EB]">
+      <div
+        draggable={true}
+        className="border mb-3 rounded-sm w-full flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#E5E7EB]"
+      >
         <IconMenu compID={compID} handleDeleteComp={handleDeleteComp} />
-        <QuestionDiv optionTypeProp={optionTypeProp} changeOptionTypeProp={changeOptionType} />
+        <QuestionDiv
+          optionTypeProp={optionTypeProp}
+          changeOptionTypeProp={changeOptionType}
+        />
         <AnswersDiv optionType={optionType} />
       </div>
     </>
   );
 };
 
-const IconMenu = ({compID,handleDeleteComp}) => {
+const IconMenu = ({ compID, handleDeleteComp }) => {
   const [activeBtn, changeActiveBtn] = useState("edit");
   return (
     <>
       <div className="flex justify-between w-full p-2">
         <div>
-
           <MenuIconBtn
             btnId={"edit"}
             title={"Edit"}
@@ -49,12 +54,13 @@ const IconMenu = ({compID,handleDeleteComp}) => {
             activeBtn={activeBtn}
             icon={myIcons.options}
           />
-          
         </div>
         <span>
-          <span onClick={e=>{
-            handleDeleteComp(compID)
-          }}>
+          <span
+            onClick={(e) => {
+              handleDeleteComp(compID);
+            }}
+          >
             <img src={myIcons.trash} />
           </span>
         </span>
@@ -79,23 +85,41 @@ const MenuIconBtn = ({ activeBtn, btnId, changeActiveBtn, icon, title }) => {
 };
 
 const QuestionDiv = ({ optionTypeProp, changeOptionTypeProp }) => {
-  let[optionType,changeOptionType]=useState(optionTypeProp||"")
-  useEffect(()=>{
-    changeOptionTypeProp(optionType)
-  },[optionType])
+  let [optionType, changeOptionType] = useState(optionTypeProp || "");
+  useEffect(() => {
+    changeOptionTypeProp(optionType);
+  }, [optionType]);
   return (
     <>
       <div className="flex justify-between w-full p-2 mt-2">
         <div className=" focus:border-[#228BE6] bg-white rounded-md px-2 py-1 w-[60%] flex justify-between">
           <span className="text-[#CED4DA] inline-block">?</span>
-          <input placeholder="Enter your question" className=" inline-block w-[90%]" />
+          <input
+            placeholder="Enter your question"
+            className=" inline-block w-[90%]"
+          />
         </div>
         <div className="w-[35%]">
-          <Select value={optionType} onChange={e => {
-            console.log(e.target.value)
-            changeOptionType(e.target.value)
-          }} renderValue={(value) => <span className=" capitalize"> 
-          <span className="bg-[#CCFBF1]">{optionTypeProp==="radio"?<RadioButtonCheckedIcon sx={{color:"#0F766E"}} />:<CheckBoxIcon/>}</span> {value}</span>} size="small" sx={{ width: "90%", display: "flex", flexDirection: "row" }}>
+          <Select
+            value={optionType}
+            onChange={(e) => {
+              changeOptionType(e.target.value);
+            }}
+            renderValue={(value) => (
+              <span className=" capitalize">
+                <span className="bg-[#CCFBF1]">
+                  {optionType === "radio" ? (
+                    <RadioButtonCheckedIcon sx={{ color: "#0F766E" }} />
+                  ) : (
+                    <CheckBoxIcon />
+                  )}
+                </span>{" "}
+                {value}
+              </span>
+            )}
+            size="small"
+            sx={{ width: "90%", display: "flex", flexDirection: "row" }}
+          >
             <MenuItem value="radio">
               <ListItemIcon sx={{ display: "flex", alignItems: "baseline" }}>
                 <RadioButtonCheckedIcon />
@@ -125,24 +149,26 @@ const AnswersDiv = ({ optionType }) => {
   };
   let removeOption = (optionId) => {
     optionList.splice(optionId, 1);
-    console.log(optionList);
     changeOptionList([...JSON.parse(JSON.stringify(optionList))]);
   };
   if (optionType === "radio") {
-    return <div className="flex flex-col w-full p-2 mt-2">
-      <RadioGroup>{optionList.map((optionId, index) => (
-
-        <OptionDiv
-          optionId={optionId}
-          correctOptionID={correctOptionID}
-          changeCorrectOptionID={changeCorrectOptionID}
-          addOption={addOption}
-          key={optionId}
-          removeOption={removeOption}
-          optionType={"radio"}
-        />
-      ))}</RadioGroup>
-    </div>
+    return (
+      <div className="flex flex-col w-full p-2 mt-2">
+        <RadioGroup>
+          {optionList.map((optionId, index) => (
+            <OptionDiv
+              optionId={optionId}
+              correctOptionID={correctOptionID}
+              changeCorrectOptionID={changeCorrectOptionID}
+              addOption={addOption}
+              key={optionId}
+              removeOption={removeOption}
+              optionType={"radio"}
+            />
+          ))}
+        </RadioGroup>
+      </div>
+    );
   }
   return (
     <div className="flex flex-col w-full p-2 mt-2">
@@ -166,18 +192,28 @@ const OptionDiv = ({
   correctOptionID,
   changeCorrectOptionID,
   addOption,
-  removeOption, optionType
+  removeOption,
+  optionType,
 }) => {
-  let btn = null
+  let btn = null;
   if (optionType === "radio") {
-    btn = <Radio onClick={(e) => {
-      changeCorrectOptionID(0);
-    }} />
+    btn = (
+      <Radio
+        value={optionId}
+        onChange={(e) => {
+          changeCorrectOptionID(optionId);
+        }}
+      />
+    );
   }
   if (optionType === "checkbox") {
-    btn = <Checkbox onClick={(e) => {
-      changeCorrectOptionID(0);
-    }} />
+    btn = (
+      <Checkbox
+        onClick={(e) => {
+          changeCorrectOptionID(0);
+        }}
+      />
+    );
   }
   return (
     <>

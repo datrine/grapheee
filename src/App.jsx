@@ -47,7 +47,7 @@ function App() {
           {questionComps.map((comp) => comp.comp)}
           <button
             onClick={(e) => {
-              handleAddQuestionComp();
+              handleAddQuestionComp({ optionType: "radio" });
             }}
           >
             <img src={myIcons.add_question} />
