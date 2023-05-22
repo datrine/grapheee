@@ -9,7 +9,7 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
     <>
 
       <div onMouseLeave={e => {
-        
+
       }} className=" bg-[#F8F9FA] flex flex-row">
         <div>
           <BsChevronLeft
@@ -164,9 +164,9 @@ const SubMenuBar = ({ activeMenuID, }) => {
   console.log({ submenulist })
   return (
     <>
-      <div className=" md:w-[299px] bg-blue-500">
+      <div className=" md:w-[299px] p-2">
         {submenulist.map((subItem, index) => (
-          <SubMenuItem key={index} title={subItem.title} />
+          <SubMenuItem key={index} title={subItem.title} icon={subItem.icon} />
         ))}
       </div>
     </>
@@ -177,9 +177,9 @@ const SubMenuItem = ({ title, icon }) => {
   const [openSubMenuBar, toggle] = useState(false);
   return (
     <>
-      <div className="border bg-white p-2">
-        <img src={icon} />
-        <span>{title}</span>
+      <div draggable={true} className="border bg-white p-2 flex flex-row justify-between">
+        <span className="bg-[#E6FCF5] p-2 rounded-full"> <img src={icon} /></span>
+        <span className="w-2/3 text-left inline-block">{title}</span>
       </div>
     </>
   );

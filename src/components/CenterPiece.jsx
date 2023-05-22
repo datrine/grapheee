@@ -11,13 +11,14 @@ import {
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-export const Centerpiece = () => {
+export const Centerpiece = ({ optionTypeProp }) => {
+  const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
   return (
     <>
       <div className="border rounded-sm w-full flex flex-col sm:w-[600px] h-[300px] bg-[#F9FAFB]">
         <IconMenu />
-        <QuestionDiv />
-        <AnswersDiv />
+        <QuestionDiv optionTypeProp={optionTypeProp} />
+        <AnswersDiv optionType={optionType} />
       </div>
     </>
   );
@@ -62,8 +63,8 @@ const MenuIconBtn = ({ activeBtn, btnId, changeActiveBtn, icon, title }) => {
   );
 };
 
-const QuestionDiv = () => {
-  const [optionType, changeOptionType] = useState("radio");
+const QuestionDiv = ({ optionTypeProp }) => {
+  const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
   return (
     <>
       <div className="flex justify-between w-full p-2 mt-2">
@@ -72,18 +73,18 @@ const QuestionDiv = () => {
           <input className=" inline-block w-[90%]" />
         </div>
         <div className="w-[40%]">
-          <Select value={optionType} renderValue={(value)=><span> <RadioButtonCheckedIcon /> {value}</span>} size="small" sx={{width:"90%",display:"flex",flexDirection:"row"}}>
+          <Select value={optionType} renderValue={(value) => <span> <RadioButtonCheckedIcon /> {value}</span>} size="small" sx={{ width: "90%", display: "flex", flexDirection: "row" }}>
             <MenuItem value="radio">
               <ListItemIcon sx={{ display: "flex", alignItems: "baseline" }}>
                 <RadioButtonCheckedIcon />
               </ListItemIcon>
-                <ListItemText primary="Radio" />
+              <ListItemText primary="Radio" />
             </MenuItem>
             <MenuItem value="radio">
               <ListItemIcon>
-                <CheckBoxIcon  />
+                <CheckBoxIcon />
               </ListItemIcon>
-                <ListItemText primary="Radio" />
+              <ListItemText primary="Radio" />
             </MenuItem>
           </Select>
         </div>
@@ -143,7 +144,7 @@ const DropdownBtn = ({ activeOptionType, changeActiveOptionType }) => {
   );
 };
 
-const AnswersDiv = () => {
+const AnswersDiv = ({ optionType }) => {
   const [correctOptionID, changeCorrectOptionID] = useState(1);
   const [optionList, changeOptionList] = useState([0]);
   let addOption = () => {
@@ -166,6 +167,7 @@ const AnswersDiv = () => {
           addOption={addOption}
           key={optionId}
           removeOption={removeOption}
+          optionType={optionType}
         />
       ))}
     </div>
@@ -177,31 +179,20 @@ const OptionDiv = ({
   correctOptionID,
   changeCorrectOptionID,
   addOption,
-  removeOption,
+  removeOption, optionType
 }) => {
+  let optionGif
   return (
     <>
       <div className="flex justify-between p-2 w-full items-baseline">
         <span>
           <img src={myIcons.grid_vertical} />
         </span>
-        {optionId === correctOptionID ? (
-          <span
-            onClick={(e) => {
-              changeCorrectOptionID(0);
-            }}
-          >
-            <img src={myIcons.checkedbox} />
-          </span>
-        ) : (
-          <span
-            onClick={(e) => {
-              changeCorrectOptionID(optionId);
-            }}
-          >
-            <img src={myIcons.uncheckedbox} />
-          </span>
-        )}
+        <input type={optionType}
+          onChange={(e) => {
+            changeCorrectOptionID(0);
+          }}
+        />
         <OptionText />
         <span
           onClick={(e) => {
