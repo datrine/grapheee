@@ -18,7 +18,7 @@ export const Centerpiece = ({ optionTypeProp,compID ,handleDeleteComp}) => {
   const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
   return (
     <>
-      <div className="border rounded-sm w-full flex flex-col sm:w-[600px] h-[300px] bg-[#F9FAFB]">
+      <div draggable={true} className="border mb-3 rounded-sm w-full flex flex-col sm:w-[600px] h-[300px] bg-[#E5E7EB]">
         <IconMenu compID={compID} handleDeleteComp={handleDeleteComp} />
         <QuestionDiv optionTypeProp={optionTypeProp} changeOptionTypeProp={changeOptionType} />
         <AnswersDiv optionType={optionType} />
@@ -33,6 +33,7 @@ const IconMenu = ({compID,handleDeleteComp}) => {
     <>
       <div className="flex justify-between w-full p-2">
         <div>
+
           <MenuIconBtn
             btnId={"edit"}
             title={"Edit"}
@@ -40,6 +41,15 @@ const IconMenu = ({compID,handleDeleteComp}) => {
             activeBtn={activeBtn}
             icon={myIcons.edit}
           />
+
+          <MenuIconBtn
+            btnId={"options"}
+            title={"Options"}
+            changeActiveBtn={changeActiveBtn}
+            activeBtn={activeBtn}
+            icon={myIcons.options}
+          />
+          
         </div>
         <span>
           <span onClick={e=>{
@@ -78,9 +88,9 @@ const QuestionDiv = ({ optionTypeProp, changeOptionTypeProp }) => {
       <div className="flex justify-between w-full p-2 mt-2">
         <div className=" focus:border-[#228BE6] bg-white rounded-md px-2 py-1 w-[60%] flex justify-between">
           <span className="text-[#CED4DA] inline-block">?</span>
-          <input className=" inline-block w-[90%]" />
+          <input placeholder="Enter your question" className=" inline-block w-[90%]" />
         </div>
-        <div className="w-[40%]">
+        <div className="w-[35%]">
           <Select value={optionType} onChange={e => {
             console.log(e.target.value)
             changeOptionType(e.target.value)
