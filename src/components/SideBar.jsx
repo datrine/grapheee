@@ -3,109 +3,128 @@ import { myIcons } from "../assets";
 import { BsChevronDown, BsChevronLeft, BsChevronRight } from "react-icons/bs";
 export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
   const [openSubMenubar, toggleSubmenuBar] = useState(false);
-  const [submenuTitle, changeSubMenuTitle] = useState("");
-  const [submenuList, changeSubMenuList] = useState([]);
-  let getSubMenuList = (id) => {
-    let submenuList = subMenuSuperList[id] || [];
-    changeSubMenuTitle(id);
-    changeSubMenuList(submenuList);
-  };
+  const [activeMenuID, changeActiveMenuID] = useState("");
+  console.log({ activeMenuID })
   return (
     <>
-      <div className=" bg-[#F8F9FA]">
-        <BsChevronLeft
-          onClick={(e) => {
-            toggleMenuProp(false);
-          }}
-          className="block"
-        />
-        <div className=" p-2 flex flex-row">
-          <div className=" flex flex-col">
-            <CollapsibleMenu
-              title={"Personal Settings"}
-              icon={myIcons.personal_settings}
-            >
-              <MenuItem
-                title={"Profile"}
-                setSubMenu={getSubMenuList}
-                submenuID={"profile"}
+
+      <div onMouseLeave={e => {
+        
+      }} className=" bg-[#F8F9FA] flex flex-row">
+        <div>
+          <BsChevronLeft
+            onClick={(e) => {
+              toggleMenuProp(false);
+            }}
+            className="block"
+          />
+          <div className=" p-2 flex flex-row">
+            <div className=" flex flex-col">
+              <CollapsibleMenu
+                title={"Personal Settings"}
+                icon={myIcons.personal_settings}
+                menulist={[{
+                  title: "Profile",
+                  menuID: "profile"
+                }, {
+                  title: "Notification",
+                  menuID: "notification"
+                }, {
+                  title: "Credentials",
+                  menuID: "credentials"
+                }]}
+                setActiveMenuID={changeActiveMenuID}
+              >
+              </CollapsibleMenu>
+              <CollapsibleMenu
+                title={"Product Settings"}
+                icon={myIcons.product_settings}
+                menulist={[{
+                  title: "Attributes",
+                  menuID: "attributes"
+                }, {
+                  title: "Group Mentions",
+                  menuID: "group_mentions"
+                }, {
+                  title: "Task forms",
+                  menuID: "task_forms"
+                }, {
+                  title: "Integrations",
+                  menuID: "integrations"
+                }]}
+                setActiveMenuID={changeActiveMenuID}
+              >
+              </CollapsibleMenu>
+              <CollapsibleMenu
+                title={"Workspace Settings"}
+                icon={myIcons.workspace_settings}
+              >
+              </CollapsibleMenu>
+            </div>
+            {openSubMenubar ? (
+              <SubMenuBar
+                title={submenuTitle}
+                isSubMenuOpen={openSubMenubar}
+                submenulist={submenuList}
+                toggle={toggleSubmenuBar}
               />
-              <MenuItem
-                title={"Notification"}
-                setSubMenu={getSubMenuList}
-                submenuID={"profile"}
-              />
-              <MenuItem
-                title={"Credentials"}
-                setSubMenu={getSubMenuList}
-                submenuID={"profile"}
-              />
-            </CollapsibleMenu>
-            <CollapsibleMenu
-              title={"Product Settings"}
-              icon={myIcons.product_settings}
-            >
-              <MenuItem title={"Attributes"} />
-              <MenuItem title={"Group Mentions"} />
-              <MenuItem title={"Task forms"} />
-              <MenuItem title={"Integrations"} />
-            </CollapsibleMenu>
-            <CollapsibleMenu
-              title={"Workspace Settings"}
-              icon={myIcons.workspace_settings}
-            >
-              <MenuItem title={"Attributes"} />
-              <MenuItem title={"Group Mentions"} />
-              <MenuItem title={"Task forms"} />
-              <MenuItem title={"Integrations"} />
-            </CollapsibleMenu>
+            ) : null}
           </div>
-          {openSubMenubar ? (
-            <SubMenuBar
-              title={submenuTitle}
-              isSubMenuOpen={openSubMenubar}
-              submenulist={submenuList}
-              toggle={toggleSubmenuBar}
-            />
-          ) : null}
         </div>
-      </div>
+        {activeMenuID ? < SubMenuBar activeMenuID={activeMenuID} /> : null} </div>
     </>
   );
 };
 
-const CollapsibleMenu = ({ children, menulist = [], ...props }) => {
+const CollapsibleMenu = ({ children, setActiveMenuID, menulist = [], ...props }) => {
   const [openCollapsible, toggle] = useState(false);
   const [leftMargin, changeLeftMargin] = useState(0);
+  const [titleLeftoffset, changeTitleLeftoffset] = useState(0);
+  const [menuParentLeftoffset, changeMenuParentLeftoffset] = useState(0);
   return (
-    <div className=" md:w-[299px] flex flex-col items-center">
+    <div className=" md:w-[299px] flex flex-col items-center mb-3">
       <CollapsibleMenuHeader
         {...props}
         toggle={toggle}
         isCollapsedProps={openCollapsible}
-        changeLeftMarginHook={changeLeftMargin}
+        setLeftMarginHook={changeLeftMargin}
+        setTitleLeftoffsetHook={changeTitleLeftoffset}
       />
-      {openCollapsible
-        ? menulist.map((menuItem) => <MenuItem key={menuItem.title} />)
-        : null}
+      <div className={` w-[calc(100%-25px)] ml-[25px] border-l `}>
+        {openCollapsible
+          ? menulist.map(menuItem => <MenuItem setActiveMenuID={setActiveMenuID} menuID={menuItem.menuID} leftMargin={leftMargin} titleLeftoffset={titleLeftoffset} title={menuItem.title} key={menuItem.title} />)
+          : null}
+      </div>
+
     </div>
   );
 };
 
-const CollapsibleMenuHeader = ({ toggle, isCollapsedProps, icon, title }) => {
- let refTitle= useRef();
- useEffect(()=>{
-  if (!refTitle) {
-    return
-  }
-console.log(refTitle.current)
- },[refTitle])
+const CollapsibleMenuHeader = ({ toggle, isCollapsedProps, icon, title, setLeftMarginHook, setTitleLeftoffsetHook }) => {
+  let refContainerDiv = useRef();
+  let refTitle = useRef();
+
+  useEffect(() => {
+    if (!refContainerDiv) {
+      return
+    }
+    let leftMargin = refContainerDiv.current.offsetLeft
+    setLeftMarginHook(leftMargin)
+  }, [refContainerDiv])
+
+  useEffect(() => {
+    if (!refTitle) {
+      return
+    }
+    let leftMargin = refTitle.current.offsetLeft
+    setTitleLeftoffsetHook(leftMargin)
+  }, [refTitle])
   return (
-    <div className="flex justify-between items-center px-2 py-1 w-full mb-5">
+    <div ref={refContainerDiv} className="flex justify-between items-center px-2 py-1 w-full">
       <span className="p-2 rounded-full flex justify-center items-center bg-[#E7F5FF]">
         <img src={icon} />
       </span>
-      <span ref={refTitle}>{title}</span>
+      <span className=" inline-block w-[80%] text-left" ref={refTitle}>{title}</span>
       <span
         onClick={(e) => {
           toggle((state) => !state);
@@ -117,29 +136,35 @@ console.log(refTitle.current)
   );
 };
 
-const MenuItem = ({ title, submenulist, setSubMenu, submenuID }) => {
+const MenuItem = ({ title, leftMargin, titleLeftMargin, submenulist, setActiveMenuID, menuID }) => {
   const [openSubMenuBar, toggle] = useState(false);
+  console.log(title)
   return (
     <>
       <div
-        className={`flex justify-between items-center px-2 py-1 w-full border-l`}
+        className={`flex w-full justify-between items-center px-2 py-1 hover:bg-[#E7F5FF]`}
         onMouseEnter={(e) => {
-          setSubMenu(submenuID);
+          setActiveMenuID(menuID);
         }}
-        onMouseLeave={(e) => {
-          setSubMenu("");
+        onClick={(e) => {
+          setActiveMenuID(prev => prev === menuID ? "" : menuID);
         }}
       >
-        <span> {title}</span>
+        <span className={`ml-[10px]`}>{title}</span>
       </div>
     </>
   );
 };
 
-const SubMenuBar = ({ toggle, submenulist = [] }) => {
+const SubMenuBar = ({ activeMenuID, }) => {
+  let getSubMenuList = (id) => {
+    return subMenuSuperList[id] || [];
+  };
+  let submenulist = getSubMenuList(activeMenuID)
+  console.log({ submenulist })
   return (
     <>
-      <div className=" md:w-[299px]">
+      <div className=" md:w-[299px] bg-blue-500">
         {submenulist.map((subItem, index) => (
           <SubMenuItem key={index} title={subItem.title} />
         ))}
