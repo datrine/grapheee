@@ -14,20 +14,20 @@ import {
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-export const Centerpiece = ({ optionTypeProp }) => {
+export const Centerpiece = ({ optionTypeProp,compID ,handleDeleteComp}) => {
   const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
   return (
     <>
       <div className="border rounded-sm w-full flex flex-col sm:w-[600px] h-[300px] bg-[#F9FAFB]">
-        <IconMenu />
-        <QuestionDiv optionTypeProp={optionTypeProp} />
+        <IconMenu compID={compID} handleDeleteComp={handleDeleteComp} />
+        <QuestionDiv optionTypeProp={optionTypeProp} changeOptionTypeProp={changeOptionType} />
         <AnswersDiv optionType={optionType} />
       </div>
     </>
   );
 };
 
-const IconMenu = () => {
+const IconMenu = ({compID,handleDeleteComp}) => {
   const [activeBtn, changeActiveBtn] = useState("edit");
   return (
     <>
@@ -42,7 +42,9 @@ const IconMenu = () => {
           />
         </div>
         <span>
-          <span>
+          <span onClick={e=>{
+            handleDeleteComp(compID)
+          }}>
             <img src={myIcons.trash} />
           </span>
         </span>
@@ -66,8 +68,11 @@ const MenuIconBtn = ({ activeBtn, btnId, changeActiveBtn, icon, title }) => {
   );
 };
 
-const QuestionDiv = ({ optionTypeProp }) => {
-  const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
+const QuestionDiv = ({ optionTypeProp, changeOptionTypeProp }) => {
+  let[optionType,changeOptionType]=useState(optionTypeProp||"")
+  useEffect(()=>{
+    changeOptionTypeProp(optionType)
+  },[optionType])
   return (
     <>
       <div className="flex justify-between w-full p-2 mt-2">
@@ -76,73 +81,26 @@ const QuestionDiv = ({ optionTypeProp }) => {
           <input className=" inline-block w-[90%]" />
         </div>
         <div className="w-[40%]">
-          <Select value={optionType} renderValue={(value) => <span> <RadioButtonCheckedIcon /> {value}</span>} size="small" sx={{ width: "90%", display: "flex", flexDirection: "row" }}>
+          <Select value={optionType} onChange={e => {
+            console.log(e.target.value)
+            changeOptionType(e.target.value)
+          }} renderValue={(value) => <span className=" capitalize"> 
+          <span className="bg-[#CCFBF1]">{optionTypeProp==="radio"?<RadioButtonCheckedIcon sx={{color:"#0F766E"}} />:<CheckBoxIcon/>}</span> {value}</span>} size="small" sx={{ width: "90%", display: "flex", flexDirection: "row" }}>
             <MenuItem value="radio">
               <ListItemIcon sx={{ display: "flex", alignItems: "baseline" }}>
                 <RadioButtonCheckedIcon />
               </ListItemIcon>
               <ListItemText primary="Radio" />
             </MenuItem>
-            <MenuItem value="radio">
+            <MenuItem value="checkbox">
               <ListItemIcon>
                 <CheckBoxIcon />
               </ListItemIcon>
-              <ListItemText primary="Radio" />
+              <ListItemText primary="Checkbox" />
             </MenuItem>
           </Select>
         </div>
       </div>
-    </>
-  );
-};
-
-const DropdownBtn = ({ activeOptionType, changeActiveOptionType }) => {
-  let [isOpen, toggle] = useState(false);
-  let btnRef = useRef();
-  let dropdownRef = useRef();
-
-  useEffect(() => {
-    if (dropdownRef.current) {
-      let btnRect = btnRef.current.getBoundingClientRect();
-      let dropdownRect = dropdownRef.current.getBoundingClientRect();
-      dropdownRect = btnRect;
-      dropdownRect.top = btnRect.top + 30;
-    }
-  }, [dropdownRef]);
-  return (
-    <>
-      <span
-        ref={btnRef}
-        className="w-[100px] flex justify-between border-[#D1D5DB] bg-white py-1 px-2"
-        onClick={(e) => {
-          toggle(!isOpen);
-        }}
-      >
-        <span className=" capitalize">{activeOptionType}</span>
-        <span>{<BsChevronDown />}</span>
-      </span>
-      {isOpen ? (
-        <span
-          className="absolute flex flex-col p-2 bg-white rounded-md items-start"
-          ref={dropdownRef}
-        >
-          <span
-            className="mb-3"
-            onChange={(e) => {
-              changeActiveOptionType("radio");
-            }}
-          >
-            Radio
-          </span>
-          <span
-            onChange={(e) => {
-              changeActiveOptionType("checkbox");
-            }}
-          >
-            Checkbox
-          </span>
-        </span>
-      ) : null}
     </>
   );
 };
