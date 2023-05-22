@@ -8,7 +8,6 @@ import {
 export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
   const [openSubMenubar, toggleSubmenuBar] = useState(false);
   const [activeMenuID, changeActiveMenuID] = useState("");
-  console.log({ activeMenuID });
   return (
     <>
       <div
@@ -18,11 +17,10 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
         className=" bg-[#F8F9FA] flex flex-row"
       >
         <div>
-          <BsArrowLeftShort
+          <BsArrowLeftShort className=" text-xl p-2 block"
             onClick={(e) => {
               toggleMenuProp(false);
             }}
-            className="block"
           />
           <div className=" p-2 flex flex-row">
             <div className=" flex flex-col">
@@ -183,7 +181,6 @@ const MenuItem = ({
   menuID,
 }) => {
   const [openSubMenuBar, toggle] = useState(false);
-  console.log(title);
   return (
     <>
       <div
@@ -206,7 +203,6 @@ const SubMenuBar = ({ activeMenuID }) => {
     return subMenuSuperList[id] || [];
   };
   let submenulist = getSubMenuList(activeMenuID);
-  console.log({ submenulist });
   return (
     <>
       <div className=" md:w-[299px] p-2">
@@ -229,7 +225,7 @@ const SubMenuItem = ({ title, icon, value }) => {
     <>
       <div
         onDragStart={(e) => {
-          ev.dataTransfer.clearData();
+          e.dataTransfer.clearData();
           e.dataTransfer.setData("text/plain", value);
         }}
         draggable={true}
