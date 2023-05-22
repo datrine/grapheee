@@ -2,9 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { myIcons } from "../assets";
 import { BsChevronDown, BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import {
+  Checkbox,
   ListItemIcon,
   ListItemText,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   Typography,
 } from "@mui/material";
@@ -157,6 +160,22 @@ const AnswersDiv = ({ optionType }) => {
     console.log(optionList);
     changeOptionList([...JSON.parse(JSON.stringify(optionList))]);
   };
+  if (optionType === "radio") {
+    return <div className="flex flex-col w-full p-2 mt-2">
+      <RadioGroup>{optionList.map((optionId, index) => (
+
+        <OptionDiv
+          optionId={optionId}
+          correctOptionID={correctOptionID}
+          changeCorrectOptionID={changeCorrectOptionID}
+          addOption={addOption}
+          key={optionId}
+          removeOption={removeOption}
+          optionType={"radio"}
+        />
+      ))}</RadioGroup>
+    </div>
+  }
   return (
     <div className="flex flex-col w-full p-2 mt-2">
       {optionList.map((optionId, index) => (
@@ -181,18 +200,24 @@ const OptionDiv = ({
   addOption,
   removeOption, optionType
 }) => {
-  let optionGif
+  let btn = null
+  if (optionType === "radio") {
+    btn = <Radio onClick={(e) => {
+      changeCorrectOptionID(0);
+    }} />
+  }
+  if (optionType === "checkbox") {
+    btn = <Checkbox onClick={(e) => {
+      changeCorrectOptionID(0);
+    }} />
+  }
   return (
     <>
       <div className="flex justify-between p-2 w-full items-baseline">
         <span>
           <img src={myIcons.grid_vertical} />
         </span>
-        <input type={optionType}
-          onChange={(e) => {
-            changeCorrectOptionID(0);
-          }}
-        />
+        {btn}
         <OptionText />
         <span
           onClick={(e) => {
