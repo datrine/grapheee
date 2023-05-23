@@ -17,6 +17,7 @@ function App() {
   };
   let handleAddQuestionComp = ({ optionType = "radio",...rest }) => {
     let compID = nanoid();
+    console.log({rest})
     questionComps.push({
       compID,
       comp: (
@@ -44,7 +45,9 @@ function App() {
           }
           let top=e.clientY
           let left=e.clientX
+          console.log({top,left})
           handleAddQuestionComp({ optionType: data, top,left});
+          e.dataTransfer.clearData()
         }}
       >
         <SideMenu addQuestionCompByType={handleAddQuestionComp} />

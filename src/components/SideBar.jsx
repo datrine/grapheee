@@ -242,6 +242,7 @@ let subMenuSuperList = [
   },
   {
     title: "Workspace Settings",
+    menuID: "workspace_settings",
     icon: myIcons.workspace_settings,
     submenu: [
       {

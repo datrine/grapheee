@@ -31,17 +31,25 @@ export const QuestionComp = ({
   const [topState, changeTopState] = useState(top);
   const [leftState, changeLeftState] = useState(left);
   let [positionState, changePositionState] = useState(position);
+  console.log({topState,leftState})
   return (
     <>
       <div
         draggable={true}
-        onDrag={(e) => {
+        onDragStart={(e) => {
           console.log(e);
           changePositionState("absolute");
+        }} onClick={e=>{
+
         }}
-        className={`border mb-3 rounded-sm w-full ${positionState} ${
-          typeof top === "number" ? 'top-[' +top+'px]' : ""
-        }  flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#F9FAFB]`}
+        onDragEnd={e=>{
+         let left= e.clientX;
+         let top= e.clientY;
+         changeTopState(top)
+         changeLeftState(left)
+        }}
+        className={`border mb-3 rounded-sm w-full ${positionState} flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#F9FAFB]`}
+      style={{top:topState,left:leftState}}
       >
         <IconMenu compID={compID} handleDeleteComp={handleDeleteComp} />
         <QuestionDiv
