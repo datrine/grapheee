@@ -33,8 +33,10 @@ function App() {
   return (
     <>
       <div
-        className="h-screen w-screen"
-        onDragEndCapture={(e) => {
+        className="h-screen w-screen" onDragOver={e=>{
+          e.preventDefault()
+        }}
+        onDrop={(e) => {
           let data = e.dataTransfer.getData("text/plain");
           console.log({ data });
           handleAddQuestionComp({ optionType: data });

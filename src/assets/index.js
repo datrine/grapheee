@@ -19,4 +19,5 @@ const icons = {
   delete_option:"./src/assets/my_icons/delete_option.svg",
   add_option:"./src/assets/my_icons/add_option.svg"
 };
+
 export { icons as myIcons };

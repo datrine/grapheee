@@ -13,6 +13,11 @@ import {
 } from "@mui/material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import {
+  EditIconSVGAsReactComp,
+  LogicIconSVGAsReactComp,
+  OptionsIconSVGAsReactComp,
+} from "./SVGsAsReactComp";
 
 export const QuestionComp = ({ optionTypeProp, compID, handleDeleteComp }) => {
   const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
@@ -38,21 +43,27 @@ const IconMenu = ({ compID, handleDeleteComp }) => {
   return (
     <>
       <div className="flex justify-between w-full p-2">
-        <div>
+        <div className="flex flex-row">
           <MenuIconBtn
             btnId={"edit"}
             title={"Edit"}
             changeActiveBtn={changeActiveBtn}
             activeBtn={activeBtn}
-            icon={myIcons.edit}
+            IconComp={EditIconSVGAsReactComp}
           />
-
           <MenuIconBtn
             btnId={"options"}
             title={"Options"}
             changeActiveBtn={changeActiveBtn}
             activeBtn={activeBtn}
-            icon={myIcons.options}
+            IconComp={OptionsIconSVGAsReactComp}
+          />
+          <MenuIconBtn
+            btnId={"logic"}
+            title={"Logic"}
+            changeActiveBtn={changeActiveBtn}
+            activeBtn={activeBtn}
+            IconComp={LogicIconSVGAsReactComp}
           />
         </div>
         <span>
@@ -69,17 +80,26 @@ const IconMenu = ({ compID, handleDeleteComp }) => {
   );
 };
 
-const MenuIconBtn = ({ activeBtn, btnId, changeActiveBtn, icon, title }) => {
+const MenuIconBtn = ({
+  activeBtn,
+  btnId,
+  changeActiveBtn,
+  IconComp,
+  title,
+}) => {
   return (
     <>
-      {activeBtn === btnId ? (
-        <span className="bg-[#228BE6] text-[#FFFFFF] rounded-sm px-2 py-1 flex justify-between">
-          <img src={icon} />
-          <span>{title}</span>{" "}
-        </span>
-      ) : (
-        <span></span>
-      )}
+      <span
+        onClick={(e) => {
+          changeActiveBtn((prev) => btnId);
+        }}
+        className={` ${
+          activeBtn === btnId ? "bg-[#228BE6] text-[#FFFFFF]" : "text-[#000000]"
+        }  rounded-sm px-2 py-1 flex justify-between ml-2 items-center`}
+      >
+        {<IconComp color={activeBtn === btnId ? "white" : "black"} />}
+        <span>{title}</span>{" "}
+      </span>
     </>
   );
 };

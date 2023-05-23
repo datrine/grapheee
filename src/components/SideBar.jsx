@@ -10,7 +10,10 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
   const [activeMenuID, changeActiveMenuID] = useState("");
   return (
     <>
-      <div
+      <div onBlurCapture={(e)=>{
+          toggleMenuProp(false)
+
+      }}
         onMouseLeave={(e) => {
           changeActiveMenuID("");
         }}
@@ -199,14 +202,17 @@ const MenuItem = ({
   );
 };
 
-const SubMenuBar = ({ activeMenuID }) => {
+const SubMenuBar = ({ activeMenuID, }) => {
   let getSubMenuList = (id) => {
     return subMenuSuperList[id] || [];
   };
   let submenulist = getSubMenuList(activeMenuID);
   return (
     <>
-      <div className=" md:w-[299px] p-2 z-30">
+      <div className=" md:w-[200px] p-2 z-30">
+        <div className="flex justify-between ">
+          <span className=" capitalize">{activeMenuID}</span>
+        </div>
         {submenulist.map((subItem, index) => (
           <SubMenuItem
             key={index}
@@ -229,7 +235,7 @@ const SubMenuItem = ({ title, icon, value }) => {
           e.dataTransfer.setData("text/plain", value);
         }}
         draggable={true}
-        className="border bg-white p-2 flex flex-row justify-between"
+        className="rounded-sm drop-shadow-md bg-white p-2 flex flex-row justify-between"
       >
         <span className="bg-[#E6FCF5] p-2 rounded-full">
           <img src={icon} />
