@@ -42,10 +42,6 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
                   key={menu.menuID}
                 />
               ))}
-              <CollapsibleMenu
-                title={"Workspace Settings"}
-                icon={myIcons.workspace_settings}
-              ></CollapsibleMenu>
             </div>
           </div>
         </div>
@@ -233,5 +229,27 @@ let subMenuSuperList = [
         submenu: [],
       },
     ],
-  },
+  },{
+    title:"Workspace Settings",
+    icon:myIcons.workspace_settings,submenu:[
+      {
+        title: "Billing",
+        menuID: "billing",
+        submenu: [],
+      },
+      {
+        title: "Users",
+        menuID: "users",
+        submenu: [],
+      },
+      {
+        title: "Company",
+        menuID: "company",
+        submenu: [],
+      },
+      {
+        title: "Permissions",
+        menuID: "permissions",
+        submenu: [],
+      },]}
 ];
