@@ -25,7 +25,7 @@ export const QuestionComp = ({ optionTypeProp, compID, handleDeleteComp }) => {
     <>
       <div
         draggable={true}
-        className="border mb-3 rounded-sm w-full flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#E5E7EB]"
+        className="border mb-3 rounded-sm w-full flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#F9FAFB]"
       >
         <IconMenu compID={compID} handleDeleteComp={handleDeleteComp} />
         <QuestionDiv
@@ -112,7 +112,7 @@ const QuestionDiv = ({ optionTypeProp, changeOptionTypeProp }) => {
   return (
     <>
       <div className="flex justify-between w-full p-2 mt-2">
-        <div className=" focus:border-[#228BE6] bg-white rounded-md px-2 py-1 w-[60%] flex justify-between">
+        <div className=" focus:border-[#228BE6] border bg-white rounded-md px-2 py-1 w-[60%] flex justify-between items-center">
           <span className="text-[#CED4DA] inline-block">?</span>
           <input
             placeholder="Enter your question"
@@ -138,7 +138,7 @@ const QuestionDiv = ({ optionTypeProp, changeOptionTypeProp }) => {
               </span>
             )}
             size="small"
-            sx={{ width: "90%", display: "flex", flexDirection: "row" }}
+            sx={{ width: "90%", display: "flex", flexDirection: "row" ,color:"#091E42"}}
           >
             <MenuItem value="radio">
               <ListItemIcon sx={{ display: "flex", alignItems: "baseline" }}>
@@ -265,7 +265,7 @@ const OptionDiv = ({
 const OptionText = ({ optionId, correctOptionID, changeCorrectOptionID }) => {
   return (
     <>
-      <input className=" inline-block rounded-md w-[80%] py-1 pl-2" />
+      <input className=" inline-block rounded-md w-[80%] py-1 pl-2 border" placeholder="Enter answer choice" />
     </>
   );
 };

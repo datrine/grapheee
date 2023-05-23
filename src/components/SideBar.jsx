@@ -5,15 +5,17 @@ import {
   BsChevronDown,
   BsChevronRight,
 } from "react-icons/bs";
+
 export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
   const [openSubMenubar, toggleSubmenuBar] = useState(false);
   const [activeMenuID, changeActiveMenuID] = useState("");
+  const [activeSubMenu, changeActiveSubMenu] = useState([]);
   return (
     <>
-      <div onBlurCapture={(e)=>{
-          toggleMenuProp(false)
-
-      }}
+      <div
+        onBlurCapture={(e) => {
+          toggleMenuProp(false);
+        }}
         onMouseLeave={(e) => {
           changeActiveMenuID("");
         }}
@@ -21,71 +23,33 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
       >
         <div>
           <div>
-          <BsArrowLeftShort className=" text-xl"
-            onClick={(e) => {
-              toggleMenuProp(false);
-            }}
-          /></div>
+            <BsArrowLeftShort
+              className=" text-xl"
+              onClick={(e) => {
+                toggleMenuProp(false);
+              }}
+            />
+          </div>
           <div className=" p-2 flex flex-row">
             <div className=" flex flex-col">
-              <CollapsibleMenu
-                title={"Personal Settings"}
-                icon={myIcons.personal_settings}
-                menulist={[
-                  {
-                    title: "Profile",
-                    menuID: "profile",
-                  },
-                  {
-                    title: "Notification",
-                    menuID: "notification",
-                  },
-                  {
-                    title: "Credentials",
-                    menuID: "credentials",
-                  },
-                ]}
-                setActiveMenuID={changeActiveMenuID}
-              ></CollapsibleMenu>
-              <CollapsibleMenu
-                title={"Product Settings"}
-                icon={myIcons.product_settings}
-                menulist={[
-                  {
-                    title: "Attributes",
-                    menuID: "attributes",
-                  },
-                  {
-                    title: "Group Mentions",
-                    menuID: "group_mentions",
-                  },
-                  {
-                    title: "Task forms",
-                    menuID: "task_forms",
-                  },
-                  {
-                    title: "Integrations",
-                    menuID: "integrations",
-                  },
-                ]}
-                setActiveMenuID={changeActiveMenuID}
-              ></CollapsibleMenu>
+              {subMenuSuperList.map((menu) => (
+                <CollapsibleMenu
+                  title={menu.title}
+                  icon={menu.icon}
+                  menulist={menu.submenu}
+                  setActiveMenuID={changeActiveMenuID}
+                  setActiveSubMenu={changeActiveSubMenu}
+                  key={menu.menuID}
+                />
+              ))}
               <CollapsibleMenu
                 title={"Workspace Settings"}
                 icon={myIcons.workspace_settings}
               ></CollapsibleMenu>
             </div>
-            {openSubMenubar ? (
-              <SubMenuBar
-                title={submenuTitle}
-                isSubMenuOpen={openSubMenubar}
-                submenulist={submenuList}
-                toggle={toggleSubmenuBar}
-              />
-            ) : null}
           </div>
         </div>
-        {activeMenuID ? <SubMenuBar activeMenuID={activeMenuID} /> : null}
+        {activeMenuID ? <SubMenuBar submenulist={activeSubMenu} /> : null}
       </div>
     </>
   );
@@ -94,32 +58,27 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
 const CollapsibleMenu = ({
   children,
   setActiveMenuID,
+  setActiveSubMenu,
   menulist = [],
   ...props
 }) => {
   const [openCollapsible, toggle] = useState(false);
-  const [leftMargin, changeLeftMargin] = useState(0);
-  const [titleLeftoffset, changeTitleLeftoffset] = useState(0);
-  const [menuParentLeftoffset, changeMenuParentLeftoffset] = useState(0);
   return (
     <div className=" md:w-[299px] flex flex-col items-center mb-3">
       <CollapsibleMenuHeader
         {...props}
         toggle={toggle}
         isCollapsedProps={openCollapsible}
-        setLeftMarginHook={changeLeftMargin}
-        setTitleLeftoffsetHook={changeTitleLeftoffset}
       />
       <div className={` w-[calc(100%-25px)] ml-[25px] border-l `}>
         {openCollapsible
           ? menulist.map((menuItem) => (
               <MenuItem
-                setActiveMenuID={setActiveMenuID}
+                setActiveSubMenu={setActiveSubMenu}
                 menuID={menuItem.menuID}
-                leftMargin={leftMargin}
-                titleLeftoffset={titleLeftoffset}
                 title={menuItem.title}
                 key={menuItem.title}
+                menulist={menuItem.submenu}
               />
             ))
           : null}
@@ -158,6 +117,9 @@ const CollapsibleMenuHeader = ({
     <div
       ref={refContainerDiv}
       className="flex justify-between items-center px-2 py-1 w-full"
+      onClick={(e) => {
+        toggle((state) => !state);
+      }}
     >
       <span className="p-2 rounded-full flex justify-center items-center bg-[#E7F5FF]">
         <img src={icon} />
@@ -165,35 +127,25 @@ const CollapsibleMenuHeader = ({
       <span className=" inline-block w-[80%] text-left" ref={refTitle}>
         {title}
       </span>
-      <span
-        onClick={(e) => {
-          toggle((state) => !state);
-        }}
-      >
-        {isCollapsedProps ? <BsChevronDown /> : <BsChevronRight />}
-      </span>
+      <span>{isCollapsedProps ? <BsChevronDown /> : <BsChevronRight />}</span>
     </div>
   );
 };
 
 const MenuItem = ({
-  title,
-  leftMargin,
-  titleLeftMargin,
-  submenulist,
-  setActiveMenuID,
+  title,setActiveSubMenu,
   menuID,
+  menulist = [],
 }) => {
-  const [openSubMenuBar, toggle] = useState(false);
   return (
     <>
       <div
         className={`flex w-full justify-between items-center px-2 py-1 hover:bg-[#E7F5FF]`}
         onMouseEnter={(e) => {
-          setActiveMenuID(menuID);
+          setActiveSubMenu(menulist);
         }}
         onClick={(e) => {
-          setActiveMenuID((prev) => (prev === menuID ? "" : menuID));
+          setActiveSubMenu([...menulist]);
         }}
       >
         <span className={`ml-[10px]`}>{title}</span>
@@ -202,11 +154,7 @@ const MenuItem = ({
   );
 };
 
-const SubMenuBar = ({ activeMenuID, }) => {
-  let getSubMenuList = (id) => {
-    return subMenuSuperList[id] || [];
-  };
-  let submenulist = getSubMenuList(activeMenuID);
+const SubMenuBar = ({ submenulist }) => {
   return (
     <>
       <div className=" md:w-[200px] p-2 z-30">
@@ -230,7 +178,8 @@ const SubMenuItem = ({ title, icon, value }) => {
   const [openSubMenuBar, toggle] = useState(false);
   return (
     <>
-      <div onDragStartCapture={(e) => {
+      <div
+        onDragStartCapture={(e) => {
           e.dataTransfer.clearData();
           e.dataTransfer.setData("text/plain", value);
         }}
@@ -246,6 +195,54 @@ const SubMenuItem = ({ title, icon, value }) => {
   );
 };
 
-let subMenuSuperList = {
-  profile: [{ icon: myIcons.radio, title: "Radio", value: "radio" }],
-};
+let subMenuSuperList = [
+  {
+    title: "Personal Settings",
+    menuID: "personal_settings",
+    icon: myIcons.personal_settings,
+    submenu: [
+      {
+        title: "Profile",
+        menuID: "profile",
+        submenu: [],
+      },
+      {
+        title: "Credentials",
+        menuID: "credentials",
+        submenu: [],
+      },
+      {
+        title: "Notifications",
+        menuID: "notifications",
+        submenu: [],
+      },
+    ],
+  },
+  {
+    title: "Product Settings",
+    menuID: "product_settings",
+    icon: myIcons.product_settings,
+    submenu: [
+      {
+        title: "Attributes",
+        menuID: "attributes",
+        submenu: [],
+      },
+      {
+        title: "Group Mentions",
+        menuID: "group_mentions",
+        submenu: [],
+      },
+      {
+        title: "Task forms",
+        menuID: "task_forms",
+        submenu: [{ icon: myIcons.radio, title: "Radio", value: "radio" }],
+      },
+      {
+        title: "Integrations",
+        menuID: "integrations",
+        submenu: [],
+      },
+    ],
+  },
+];
