@@ -15,13 +15,13 @@ function App() {
     });
     //changeQuestionComps([...questionComps])
   };
-  let handleAddQuestionComp = ({ optionType = "radio" }) => {
+  let handleAddQuestionComp = ({ optionType = "radio",...rest }) => {
     let compID = nanoid();
     questionComps.push({
       compID,
       comp: (
         <QuestionComp
-          optionTypeProp={optionType}
+          optionTypeProp={optionType} {...rest}
           key={compID}
           compID={compID}
           handleDeleteComp={handleDeleteQuestionComp}
@@ -39,7 +39,12 @@ function App() {
         onDrop={(e) => {
           let data = e.dataTransfer.getData("text/plain");
           console.log({ data });
-          handleAddQuestionComp({ optionType: data });
+          if (!data) {
+            return
+          }
+          let top=e.clientY
+          let left=e.clientX
+          handleAddQuestionComp({ optionType: data, top,left});
         }}
       >
         <SideMenu addQuestionCompByType={handleAddQuestionComp} />

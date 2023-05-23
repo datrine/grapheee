@@ -19,13 +19,29 @@ import {
   OptionsIconSVGAsReactComp,
 } from "./SVGsAsReactComp";
 
-export const QuestionComp = ({ optionTypeProp, compID, handleDeleteComp }) => {
+export const QuestionComp = ({
+  optionTypeProp,
+  compID,
+  handleDeleteComp,
+  top,
+  left,
+  position,
+}) => {
   const [optionType, changeOptionType] = useState(optionTypeProp || "radio");
+  const [topState, changeTopState] = useState(top);
+  const [leftState, changeLeftState] = useState(left);
+  let [positionState, changePositionState] = useState(position);
   return (
     <>
       <div
         draggable={true}
-        className="border mb-3 rounded-sm w-full flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#F9FAFB]"
+        onDrag={(e) => {
+          console.log(e);
+          changePositionState("absolute");
+        }}
+        className={`border mb-3 rounded-sm w-full ${positionState} ${
+          typeof top === "number" ? 'top-[' +top+'px]' : ""
+        }  flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#F9FAFB]`}
       >
         <IconMenu compID={compID} handleDeleteComp={handleDeleteComp} />
         <QuestionDiv
@@ -138,7 +154,12 @@ const QuestionDiv = ({ optionTypeProp, changeOptionTypeProp }) => {
               </span>
             )}
             size="small"
-            sx={{ width: "90%", display: "flex", flexDirection: "row" ,color:"#091E42"}}
+            sx={{
+              width: "90%",
+              display: "flex",
+              flexDirection: "row",
+              color: "#091E42",
+            }}
           >
             <MenuItem value="radio">
               <ListItemIcon sx={{ display: "flex", alignItems: "baseline" }}>
@@ -222,7 +243,8 @@ const OptionDiv = ({
         value={optionId}
         onChange={(e) => {
           changeCorrectOptionID(optionId);
-        }} sx={{zIndex:0}}
+        }}
+        sx={{ zIndex: 0 }}
       />
     );
   }
@@ -265,7 +287,10 @@ const OptionDiv = ({
 const OptionText = ({ optionId, correctOptionID, changeCorrectOptionID }) => {
   return (
     <>
-      <input className=" inline-block rounded-md w-[80%] py-1 pl-2 border" placeholder="Enter answer choice" />
+      <input
+        className=" inline-block rounded-md w-[80%] py-1 pl-2 border"
+        placeholder="Enter answer choice"
+      />
     </>
   );
 };

@@ -7,7 +7,6 @@ import {
 } from "react-icons/bs";
 
 export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
-  const [openSubMenubar, toggleSubmenuBar] = useState(false);
   const [activeMenuID, changeActiveMenuID] = useState("");
   const [activeSubMenu, changeActiveSubMenu] = useState([]);
   return (
@@ -49,6 +48,7 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
           <SubMenuBar
             submenulist={activeSubMenu}
             activeMenuTitle={activeMenuID}
+            changeActiveMenuID={changeActiveMenuID}
           />
         ) : null}
       </div>
@@ -139,13 +139,19 @@ const MenuItem = ({
   );
 };
 
-const SubMenuBar = ({ submenulist, activeMenuTitle }) => {
+const SubMenuBar = ({ submenulist, activeMenuTitle, changeActiveMenuID }) => {
   return (
     <>
-      <div className=" md:w-[200px] p-2 z-30 mb-2">
+      <div className=" md:w-[200px] p-2 z-30 mb-2 mt-2">
         <div className="flex justify-between ">
           <span className=" capitalize text-[#1C7ED6]">{activeMenuTitle}</span>
-          <img src={myIcons.close_submenu}/>
+          <span
+            onClick={(e) => {
+              changeActiveMenuID("");
+            }}
+          >
+            <img src={myIcons.close_submenu} />
+          </span>
         </div>
         {submenulist.map((subItem, index) => (
           <SubMenuItem
@@ -170,7 +176,7 @@ const SubMenuItem = ({ title, icon, value }) => {
           e.dataTransfer.setData("text/plain", value);
         }}
         draggable={true}
-        className="rounded-sm drop-shadow-md bg-white p-2 flex flex-row justify-between"
+        className="rounded-md drop-shadow-md bg-white p-2 flex flex-row justify-between mb-3 mt-1"
       >
         <span className="bg-[#E6FCF5] p-2 rounded-full">
           <img src={icon} />
@@ -222,7 +228,10 @@ let subMenuSuperList = [
       {
         title: "Task forms",
         menuID: "task_forms",
-        submenu: [{ icon: myIcons.radio, title: "Radio", value: "radio" }],
+        submenu: [
+          { icon: myIcons.radio, title: "Radio", value: "radio" },
+          { icon: myIcons.uncheckedbox, title: "Checkbox", value: "checkbox" },
+        ],
       },
       {
         title: "Integrations",
@@ -230,9 +239,11 @@ let subMenuSuperList = [
         submenu: [],
       },
     ],
-  },{
-    title:"Workspace Settings",
-    icon:myIcons.workspace_settings,submenu:[
+  },
+  {
+    title: "Workspace Settings",
+    icon: myIcons.workspace_settings,
+    submenu: [
       {
         title: "Billing",
         menuID: "billing",
@@ -252,5 +263,7 @@ let subMenuSuperList = [
         title: "Permissions",
         menuID: "permissions",
         submenu: [],
-      },]}
+      },
+    ],
+  },
 ];
