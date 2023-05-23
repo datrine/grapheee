@@ -222,7 +222,7 @@ const OptionDiv = ({
         value={optionId}
         onChange={(e) => {
           changeCorrectOptionID(optionId);
-        }}
+        }} sx={{zIndex:0}}
       />
     );
   }

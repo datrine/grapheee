@@ -17,7 +17,8 @@ const icons = {
   add_question:"./src/assets/my_icons/add_question.svg",
   url:"./src/assets/my_icons/url.svg",
   delete_option:"./src/assets/my_icons/delete_option.svg",
-  add_option:"./src/assets/my_icons/add_option.svg"
+  add_option:"./src/assets/my_icons/add_option.svg",
+  close_submenu:"./src/assets/my_icons/close_submenu.svg"
 };
 
 export { icons as myIcons };

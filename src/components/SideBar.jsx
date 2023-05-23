@@ -30,7 +30,7 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
               }}
             />
           </div>
-          <div className=" p-2 flex flex-row">
+          <div className=" p-2 flex flex-row mb-2">
             <div className=" flex flex-col">
               {subMenuSuperList.map((menu) => (
                 <CollapsibleMenu
@@ -142,9 +142,10 @@ const MenuItem = ({
 const SubMenuBar = ({ submenulist, activeMenuTitle }) => {
   return (
     <>
-      <div className=" md:w-[200px] p-2 z-30">
+      <div className=" md:w-[200px] p-2 z-30 mb-2">
         <div className="flex justify-between ">
-          <span className=" capitalize">{activeMenuTitle}</span>
+          <span className=" capitalize text-[#1C7ED6]">{activeMenuTitle}</span>
+          <img src={myIcons.close_submenu}/>
         </div>
         {submenulist.map((subItem, index) => (
           <SubMenuItem
