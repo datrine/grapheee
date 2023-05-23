@@ -49,7 +49,12 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
             </div>
           </div>
         </div>
-        {activeMenuID ? <SubMenuBar submenulist={activeSubMenu} /> : null}
+        {activeMenuID ? (
+          <SubMenuBar
+            submenulist={activeSubMenu}
+            activeMenuTitle={activeMenuID}
+          />
+        ) : null}
       </div>
     </>
   );
@@ -75,6 +80,7 @@ const CollapsibleMenu = ({
           ? menulist.map((menuItem) => (
               <MenuItem
                 setActiveSubMenu={setActiveSubMenu}
+                setActiveMenuID={setActiveMenuID}
                 menuID={menuItem.menuID}
                 title={menuItem.title}
                 key={menuItem.title}
@@ -95,27 +101,8 @@ const CollapsibleMenuHeader = ({
   setLeftMarginHook,
   setTitleLeftoffsetHook,
 }) => {
-  let refContainerDiv = useRef();
-  let refTitle = useRef();
-
-  useEffect(() => {
-    if (!refContainerDiv) {
-      return;
-    }
-    let leftMargin = refContainerDiv.current.offsetLeft;
-    setLeftMarginHook(leftMargin);
-  }, [refContainerDiv]);
-
-  useEffect(() => {
-    if (!refTitle) {
-      return;
-    }
-    let leftMargin = refTitle.current.offsetLeft;
-    setTitleLeftoffsetHook(leftMargin);
-  }, [refTitle]);
   return (
     <div
-      ref={refContainerDiv}
       className="flex justify-between items-center px-2 py-1 w-full"
       onClick={(e) => {
         toggle((state) => !state);
@@ -124,16 +111,16 @@ const CollapsibleMenuHeader = ({
       <span className="p-2 rounded-full flex justify-center items-center bg-[#E7F5FF]">
         <img src={icon} />
       </span>
-      <span className=" inline-block w-[80%] text-left" ref={refTitle}>
-        {title}
-      </span>
+      <span className=" inline-block w-[80%] text-left">{title}</span>
       <span>{isCollapsedProps ? <BsChevronDown /> : <BsChevronRight />}</span>
     </div>
   );
 };
 
 const MenuItem = ({
-  title,setActiveSubMenu,
+  title,
+  setActiveSubMenu,
+  setActiveMenuID,
   menuID,
   menulist = [],
 }) => {
@@ -142,9 +129,11 @@ const MenuItem = ({
       <div
         className={`flex w-full justify-between items-center px-2 py-1 hover:bg-[#E7F5FF]`}
         onMouseEnter={(e) => {
+          setActiveMenuID(title);
           setActiveSubMenu(menulist);
         }}
         onClick={(e) => {
+          setActiveMenuID(title);
           setActiveSubMenu([...menulist]);
         }}
       >
@@ -154,12 +143,12 @@ const MenuItem = ({
   );
 };
 
-const SubMenuBar = ({ submenulist }) => {
+const SubMenuBar = ({ submenulist, activeMenuTitle }) => {
   return (
     <>
       <div className=" md:w-[200px] p-2 z-30">
         <div className="flex justify-between ">
-          <span className=" capitalize">{activeMenuID}</span>
+          <span className=" capitalize">{activeMenuTitle}</span>
         </div>
         {submenulist.map((subItem, index) => (
           <SubMenuItem
