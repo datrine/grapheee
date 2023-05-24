@@ -1,3 +1,43 @@
+import personal_settings from "./my_icons/personal_settings.svg"
+import workspace_settings from "./my_icons/personal_settings.svg"
+import product_settings from "./my_icons/product_settings.svg"
+import options from "./my_icons/options.svg"
+import short_answer from "./my_icons/personal_settings.svg"
+import long_answer from "./my_icons/long_answer.svg"
+import email from "./my_icons/email.svg"
+import radio from "./my_icons/radio.svg"
+import edit from "./my_icons/edit.svg"
+import trash from "./my_icons/trash.svg"
+import grid_vertical from "./my_icons/grid_vertical.svg"
+import checkedbox from "./my_icons/checkedbox.svg"
+import uncheckedbox from "./my_icons/uncheckedbox.svg"
+import logic from "./my_icons/logic.svg"
+import add_question from "./my_icons/add_question.svg"
+import url from "./my_icons/url.svg"
+import delete_option from "./my_icons/delete_option.svg"
+import add_option from "./my_icons/add_option.svg"
+import close_submenu from "./my_icons/close_submenu.svg"
+const iconObjs = {
+  personal_settings,
+  workspace_settings,
+  product_settings,
+  options,
+  short_answer,
+  long_answer,
+  email,
+  radio,
+  edit,
+  trash,
+  grid_vertical,
+  checkedbox,
+  uncheckedbox,
+  logic,
+  add_question,
+  url,
+  delete_option,
+  add_option,
+  close_submenu
+};
 const icons = {
   personal_settings: "./src/assets/my_icons/personal_settings.svg",
   workspace_settings: "./src/assets/my_icons/workspace_settings.svg",
@@ -21,4 +61,4 @@ const icons = {
   close_submenu:"./src/assets/my_icons/close_submenu.svg"
 };
 
-export { icons as myIcons };
+export { iconObjs as myIcons };

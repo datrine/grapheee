@@ -123,7 +123,7 @@ const MenuItem = ({
   return (
     <>
       <div
-        className={`flex w-full justify-between items-center px-2 py-1 hover:bg-[#E7F5FF]`}
+        className={`flex w-full justify-between items-center md:mt-2 px-2 py-2 hover:bg-[#E7F5FF]`}
         onMouseEnter={(e) => {
           setActiveMenuID(title);
           setActiveSubMenu(menulist);
@@ -176,7 +176,7 @@ const SubMenuItem = ({ title, icon, value }) => {
           e.dataTransfer.setData("text/plain", value);
         }}
         draggable={true}
-        className="rounded-md drop-shadow-md bg-white p-2 flex flex-row justify-between mb-3 mt-1"
+        className="rounded-md drop-shadow-md bg-white p-2 flex flex-row justify-between mb-5 mt-1"
       >
         <span className="bg-[#E6FCF5] p-2 rounded-full">
           <img src={icon} />
@@ -230,7 +230,10 @@ let subMenuSuperList = [
         menuID: "task_forms",
         submenu: [
           { icon: myIcons.radio, title: "Radio", value: "radio" },
-          { icon: myIcons.uncheckedbox, title: "Checkbox", value: "checkbox" },
+          { icon: myIcons.uncheckedbox, title: "Checkboxes", value: "checkbox" },
+          { icon: myIcons.short_answer, title: "Short Answer", value: "short_answer" },
+          { icon: myIcons.long_answer, title: "Long Answer", value: "long_answer" },
+          { icon: myIcons.email, title: "Email", value: "email" },
         ],
       },
       {

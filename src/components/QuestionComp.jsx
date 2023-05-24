@@ -48,7 +48,7 @@ export const QuestionComp = ({
          changeTopState(top)
          changeLeftState(left)
         }}
-        className={`border mb-3 rounded-sm w-full ${positionState} flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#F9FAFB]`}
+        className={`border mb-3 rounded-md w-full ${positionState} flex flex-col sm:w-[600px] min-h-[300px] pb-2 bg-[#F9FAFB]`}
       style={{top:topState,left:leftState}}
       >
         <IconMenu compID={compID} handleDeleteComp={handleDeleteComp} />

@@ -58,9 +58,9 @@ function App() {
           <button
             onClick={(e) => {
               handleAddQuestionComp({ optionType: "radio" });
-            }}
+            }} className=" inline-block w-[300px] border py-2 flex flex-row justify-center"
           >
-            <img src={myIcons.add_question} />
+            <img src={myIcons.add_question} /> <span className="">Add Question</span>
           </button>
         </div>
       </div>
