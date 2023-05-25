@@ -18,7 +18,7 @@ export const SideBar = ({ isMenuOpenProp, toggleMenuProp }) => {
         onMouseLeave={(e) => {
           changeActiveMenuID("");
         }}
-        className=" bg-[#F8F9FA] flex flex-row"
+        className=" bg-[#F8F9FA] flex flex-row h-screen"
       >
         <div>
           <div>
@@ -65,7 +65,7 @@ const CollapsibleMenu = ({
 }) => {
   const [openCollapsible, toggle] = useState(false);
   return (
-    <div className=" md:w-[299px] flex flex-col items-center mb-3">
+    <div className=" md:w-[299px] w-screen flex flex-col items-center mb-3">
       <CollapsibleMenuHeader
         {...props}
         toggle={toggle}
@@ -133,7 +133,7 @@ const MenuItem = ({
           setActiveSubMenu([...menulist]);
         }}
       >
-        <span className={`ml-[10px]`}>{title}</span>
+        <span className={`md:ml-[10px] ml-[50px]`}>{title}</span>
       </div>
     </>
   );
@@ -142,7 +142,7 @@ const MenuItem = ({
 const SubMenuBar = ({ submenulist, activeMenuTitle, changeActiveMenuID }) => {
   return (
     <>
-      <div className=" md:w-[200px] p-2 z-30 mb-2 mt-2">
+      <div className=" md:w-[300px] md:block md:static absolute top-0 h-screen left-0 w-screen p-4 bg-[#F8F9FA] z-30 mb-2 mt-2">
         <div className="flex justify-between ">
           <span className=" capitalize text-[#1C7ED6]">{activeMenuTitle}</span>
           <span

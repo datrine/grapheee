@@ -34,7 +34,7 @@ function App() {
   return (
     <>
       <div
-        className="h-screen w-screen" onDragOver={e=>{
+        className=" h-screen w-full p-2" onDragOver={e=>{
           e.preventDefault()
         }}
         onDrop={(e) => {
@@ -50,15 +50,15 @@ function App() {
           e.dataTransfer.clearData()
         }}
       >
-        <SideMenu addQuestionCompByType={handleAddQuestionComp} />
-        <div
-          className={`w-full flex flex-col justify-center items-center h-full`}
+          {/**/}  <SideMenu addQuestionCompByType={handleAddQuestionComp} />
+    <div
+          className={`w-full flex flex-col justify-center items-center h-full overflow-y-auto`}
         >
           {questionComps.map((comp) => comp.comp)}
           <button
             onClick={(e) => {
               handleAddQuestionComp({ optionType: "radio" });
-            }} className=" inline-block w-[300px] border py-2 flex flex-row justify-center"
+            }} className=" md:w-[300px] rounded-md w-full border py-2 flex flex-row justify-center"
           >
             <img src={myIcons.add_question} /> <span className="">Add Question</span>
           </button>

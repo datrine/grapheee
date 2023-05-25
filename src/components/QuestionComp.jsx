@@ -135,15 +135,15 @@ const QuestionDiv = ({ optionTypeProp, changeOptionTypeProp }) => {
   }, [optionType]);
   return (
     <>
-      <div className="flex justify-between w-full p-2 mt-2">
-        <div className=" focus:border-[#228BE6] border bg-white rounded-md px-2 py-1 w-[60%] flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between w-full p-2 mt-2">
+        <div className=" focus:border-[#228BE6] border bg-white rounded-md px-2 py-1 md:w-[60%] w-full flex justify-between items-center">
           <span className="text-[#CED4DA] inline-block">?</span>
           <input
             placeholder="Enter your question"
             className=" inline-block w-[90%]"
           />
         </div>
-        <div className="w-[35%]">
+        <div className="md:w-[35%] mt-3 md:mt-0 w-full">
           <Select
             value={optionType}
             onChange={(e) => {
@@ -161,9 +161,8 @@ const QuestionDiv = ({ optionTypeProp, changeOptionTypeProp }) => {
                 {value}
               </span>
             )}
-            size="small"
+            size="small" className="w-full md:w-[90%]"
             sx={{
-              width: "90%",
               display: "flex",
               flexDirection: "row",
               color: "#091E42",
