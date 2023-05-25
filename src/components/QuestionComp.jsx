@@ -35,7 +35,7 @@ export const QuestionComp = ({
   return (
     <>
       <div
-        draggable={true}
+        draggable={false}
         onDragStart={(e) => {
           console.log(e);
           changePositionState("absolute");

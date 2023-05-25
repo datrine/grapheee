@@ -15,14 +15,15 @@ function App() {
     });
     //changeQuestionComps([...questionComps])
   };
-  let handleAddQuestionComp = ({ optionType = "radio",...rest }) => {
+  let handleAddQuestionComp = ({ optionType = "radio", ...rest }) => {
     let compID = nanoid();
-    console.log({rest})
+    console.log({ rest });
     questionComps.push({
       compID,
       comp: (
         <QuestionComp
-          optionTypeProp={optionType} {...rest}
+          optionTypeProp={optionType}
+          {...rest}
           key={compID}
           compID={compID}
           handleDeleteComp={handleDeleteQuestionComp}
@@ -34,33 +35,36 @@ function App() {
   return (
     <>
       <div
-        className=" h-screen w-full p-2" onDragOver={e=>{
-          e.preventDefault()
+        className=" h-full w-full p-2"
+        onDragOver={(e) => {
+          e.preventDefault();
         }}
         onDrop={(e) => {
           let data = e.dataTransfer.getData("text/plain");
           console.log({ data });
           if (!data) {
-            return
+            return;
           }
-          let top=e.clientY
-          let left=e.clientX
-          console.log({top,left})
-          handleAddQuestionComp({ optionType: data, top,left});
-          e.dataTransfer.clearData()
+          let top = e.clientY;
+          let left = e.clientX;
+          console.log({ top, left });
+          handleAddQuestionComp({ optionType: data, top, left });
+          e.dataTransfer.clearData();
         }}
       >
-          {/**/}  <SideMenu addQuestionCompByType={handleAddQuestionComp} />
-    <div
-          className={`w-full flex flex-col justify-center items-center h-full overflow-y-auto`}
+        {/**/} <SideMenu addQuestionCompByType={handleAddQuestionComp} />
+        <div
+          className={`w-full flex flex-col justify-center items-center h-[90%]  overflow-y-auto`}
         >
           {questionComps.map((comp) => comp.comp)}
           <button
             onClick={(e) => {
               handleAddQuestionComp({ optionType: "radio" });
-            }} className=" md:w-[300px] rounded-md w-full border py-2 flex flex-row justify-center"
+            }}
+            className=" md:w-[300px] rounded-md w-full border py-2 flex flex-row justify-center"
           >
-            <img src={myIcons.add_question} /> <span className="">Add Question</span>
+            <img src={myIcons.add_question} />{" "}
+            <span className="">Add Question</span>
           </button>
         </div>
       </div>
